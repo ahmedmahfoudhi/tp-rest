@@ -55,4 +55,8 @@ export class TodoDBController {
   version() {
     return '2';
   }
+  @Get('/stats')
+  todostats(@Body('debut') debut:Date, @Body('fin') fin:Date) : any{
+    return this.todoService.getStats(debut,fin);
+  }
 }

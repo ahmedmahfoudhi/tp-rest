@@ -57,13 +57,34 @@ export class TodoService {
     if (searchTodoDto.status) {
       criterias.push({ status: searchTodoDto.status });
     }
+    
     if (searchTodoDto.criteria) {
-      criterias.push({ name: Like(`%${searchTodoDto.criteria}%`) });
-      criterias.push({ description: Like(`%${searchTodoDto.criteria}%`) });
+      let critera1 = { name: Like(`%${searchTodoDto.criteria}%`)};
+      let criteria2 = { description: Like(`%${searchTodoDto.criteria}%`)}
+      if(searchTodoDto.status){
+        criteria2['status'] = searchTodoDto.status;
+      }
+      criterias.push(critera1);
+      criterias.push(criteria2);
+
     }
     if (criterias.length) {
       return this.todoRepository.find({ withDeleted: true, where: criterias });
     }
     return this.todoRepository.find({ withDeleted: true});
+  }
+
+  getStats(debut:Date, fin:Date) : any{
+    const qb = this.todoRepository.createQueryBuilder("todo");
+    if(!debut){
+      debut = new Date(0); // starting from 0
+    }
+    if(!fin){
+      fin = new Date(); // no limit
+    }
+    return qb.select('status , count(todo.id) as nombre').groupBy('status').where('todo.createdAt >: debut AND todo.createdAt <: fin',{
+      debut,
+      fin
+    }).getRawMany();
   }
 }
