@@ -7,10 +7,7 @@ import { devConfig } from './config/dev.config';
 import { prodConfig } from "./config/prod.config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TodoEntity } from "./todo/Entity/todo.entity";
-import { UserModule } from './user/user.module';
 import { CvModule } from './cv/cv.module';
-import { SkillModule } from './skill/skill.module';
-import { CvSkillModule } from './cv-skill/cv-skill.module';
 
 @Module({
   imports: [
@@ -31,10 +28,7 @@ import { CvSkillModule } from './cv-skill/cv-skill.module';
       synchronize: true,
       debug: true,
     }),
-    UserModule,
     CvModule,
-    SkillModule,
-    CvSkillModule,
   ],
   controllers: [AppController],
   providers: [],

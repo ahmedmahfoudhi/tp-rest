@@ -17,12 +17,19 @@ import { UpdateTodoDto } from './update-todo.dto';
 import { UpdateResult } from "typeorm/query-builder/result/UpdateResult";
 import { DeleteResult } from "typeorm/query-builder/result/DeleteResult";
 import { SearchTodoDto } from "./dto/search-todo.dto";
+import { OffsetWithoutLimitNotSupportedError } from "typeorm";
 @Controller({
   path: 'todo',
   version: '2',
 })
 export class TodoDBController {
   constructor(private todoService: TodoService) {}
+  
+  @Get('/:offset/:take')
+  getTodosByOffset(@Param('offset') offset:number, @Param('take') take:number){
+    return this.todoService.getAll(offset,take);
+  }
+
   @Get()
   getTodos(@Query() searchTodoDto: SearchTodoDto): Promise<TodoEntity[]> {
     return this.todoService.findAll(searchTodoDto);

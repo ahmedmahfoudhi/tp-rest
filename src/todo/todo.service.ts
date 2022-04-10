@@ -74,6 +74,14 @@ export class TodoService {
     return this.todoRepository.find({ withDeleted: true});
   }
 
+
+  async getAll(offset:number,take:number):Promise<TodoEntity[]>{
+    return await this.todoRepository.find({
+      take:take,
+      skip:offset
+    });
+  }
+
   getStats(debut:Date, fin:Date) : any{
     const qb = this.todoRepository.createQueryBuilder("todo");
     if(!debut){
@@ -82,9 +90,11 @@ export class TodoService {
     if(!fin){
       fin = new Date(); // no limit
     }
-    return qb.select('status , count(todo.id) as nombre').groupBy('status').where('todo.createdAt >: debut AND todo.createdAt <: fin',{
+    return qb.select('status , count(todo.id) as nombre').groupBy('status').where('todo.createdAt > :debut AND todo.createdAt < :fin',{
       debut,
       fin
     }).getRawMany();
   }
+
+
 }
