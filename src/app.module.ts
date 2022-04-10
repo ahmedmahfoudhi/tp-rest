@@ -8,6 +8,8 @@ import { prodConfig } from "./config/prod.config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TodoEntity } from "./todo/Entity/todo.entity";
 import { CvModule } from './cv/cv.module';
+import { UserModule } from './user/user.module';
+import { SkillModule } from './skill/skill.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { CvModule } from './cv/cv.module';
       debug: true,
     }),
     CvModule,
+    UserModule,
+    SkillModule,
   ],
   controllers: [AppController],
   providers: [],

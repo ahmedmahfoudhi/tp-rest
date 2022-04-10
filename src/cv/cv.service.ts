@@ -23,7 +23,7 @@ export class CvService {
     return await this.cvRepository.find();
   }
 
-  async findOne(id: string) :Promise<Cv>{
+  async findOne(id: string) :Promise<any>{
     // return `This action returns a #${id} cv`;
     return await this.cvRepository.findOneBy({id});
   }
