@@ -84,12 +84,14 @@ export class TodoService {
 
   getStats(debut:Date, fin:Date) : any{
     const qb = this.todoRepository.createQueryBuilder("todo");
-    if(!debut){
+    
+    if(debut.toString() === 'Invalid Date'){
       debut = new Date(0); // starting from 0
     }
-    if(!fin){
+    if(fin.toString() === 'Invalid Date'){
       fin = new Date(); // no limit
     }
+    console.log(fin,debut);
     return qb.select('status , count(todo.id) as nombre').groupBy('status').where('todo.createdAt > :debut AND todo.createdAt < :fin',{
       debut,
       fin
